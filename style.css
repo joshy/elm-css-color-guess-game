@@ -1,0 +1,98 @@
+body,html {
+  background: DarkSlateGray;
+  font-family: helvetica, arial, sans-serif;
+}
+div {
+  max-width: 600px;
+  padding: 2em;
+  background: #000;
+  margin: 0 auto;
+  position: relative;
+  color: #fff;
+}
+a {color: lime;
+  text-decoration: none;}
+li {
+  list-style:none;
+  float: left;
+}
+li a {
+  line-height: 50px;
+  font-size: 40px;
+  text-align: center;
+  font-weight: bold;
+  width: 50px;
+  color: #000;
+  height: 50px;
+  border-radius: 50% 50%;
+  display: block;
+  transform: scale(0.85);
+  transition: 0.4s;
+}
+li a:hover {
+  transform: scale(1);
+}
+b {
+  font-weight: normal;
+}
+
+ul {
+  margin: 210px 0 50px 0;
+  padding: 0;
+  overflow: auto;
+}
+
+p {
+  color: #fff;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+p {
+  position: fixed;
+  max-width: 580px;
+  background: #000;
+  top: 10px;
+}
+#colourname {
+  color: lime;
+}
+#result {
+  display: block;
+  color: #ccc;
+  margin-top: 5px;
+}
+footer {
+  display: block;
+  clear: both;
+  color: #ccc;
+  text-align: right;
+  padding: 1em;
+}
+span span {
+  padding: 0 .2em;
+}
+.right {
+  color: LawnGreen;
+}
+.wrong {
+  color: IndianRed;
+}
+button {
+  border: none;
+  background: olivedrab;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 18px;
+  padding: 5px 10px;
+  margin: 2em 0;
+  clear: both;
+  display: block;
+}
+ul#amounts {
+  margin: 0;
+  padding: 0;
+}
+li button {
+  margin: 0;
+}
