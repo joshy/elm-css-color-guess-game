@@ -1,18 +1,52 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Random
 import Array
 import Random.Array exposing (shuffle)
 import Json.Decode as Json
 
-main = view
+main = Signal.map (view actions.address) model
 
 seed = Random.initialSeed 48
 
 randomized : List String
 randomized = Array.toList <| fst <| shuffle seed <| Array.fromList cols
 
-view =
+type alias Model = 
+  { rightGuesses : Int
+  , wrongGuesses : Int
+  }
+  
+  
+emptyModel : Model
+emptyModel = 
+  { rightGuesses = 0
+  , wrongGuesses = 0
+  }
+  
+  -- manage the model of our application over time
+model : Signal Model
+model =
+  Signal.foldp update emptyModel actions.signal
+  
+  
+update : Action -> Model -> Model
+update action model =
+    case action of
+      NoOp -> model
+      CheckGuess data -> model  
+      
+type Action 
+  = CheckGuess String
+  | NoOp
+
+actions : Signal.Mailbox Action 
+actions =
+  Signal.mailbox NoOp
+
+
+view address model =
   ul []
     (List.map singleLink randomized)
 
@@ -21,6 +55,7 @@ singleLink c =
   li []
     [ a 
         [ href "#"
+        , onClick address Check
         , attribute "data-color" c
         , style [("background", c)]
         ] 
