@@ -3,8 +3,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Random
 import Array
-import Json.Decode as Json
-import Debug exposing (..)
 
 
 type alias Model =
@@ -16,13 +14,13 @@ type alias Model =
 
 initialModel : Model
 initialModel = 
-  { randomColor = nextRandom (Random.initialSeed 0) colors 
+  { randomColor = nextRandomColor (Random.initialSeed 0) 
   , correctGuesses = 0
   , wrongGuesses = 0
   }
 
 
-type Action = NoOp | Guess String 
+type Action = NoOp | Guess String
 
 
 update : Action -> Model -> Model
@@ -33,7 +31,7 @@ update action model =
     Guess color
       ->
         if color == snd model.randomColor then
-          { model | randomColor = nextRandom (fst model.randomColor) colors
+          { model | randomColor = nextRandomColor (fst model.randomColor)
                   , correctGuesses = model.correctGuesses + 1 }
         else
           { model | wrongGuesses = model.wrongGuesses + 1}
@@ -58,25 +56,18 @@ colors =
    ]
 
 
-nextRandom : Random.Seed -> List String -> (Random.Seed, String)
-nextRandom seed colors =
+nextRandomColor : Random.Seed -> ( Random.Seed, String )
+nextRandomColor = nextRandom colors
+
+
+nextRandom : List String -> Random.Seed -> (Random.Seed, String)
+nextRandom colors seed =
   let
     r = Random.generate (Random.int 0 (List.length colors - 1)) seed
     array = Array.fromList colors
     result = Maybe.withDefault "" (Array.get (fst r) array)
   in 
     (snd r, result)  
-
-
-randomColor : List String -> String
-randomColor colors = 
-  let 
-    seed = Random.initialSeed 0
-    tuple = Random.generate (Random.int 0 (List.length colors - 1)) seed
-    array = Array.fromList colors
-    result = Array.get (fst tuple) array
-  in 
-    Maybe.withDefault "" result
 
 
 upperView : String -> Html
