@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignore": ["*.js"],
+  "execMap": {
+    "elm": "elm make --output elm.js"
+  }
+}

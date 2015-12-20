@@ -9243,34 +9243,6 @@ Elm.Random.make = function (_elm) {
                                ,generate: generate
                                ,initialSeed: initialSeed};
 };
-Elm.Trampoline = Elm.Trampoline || {};
-Elm.Trampoline.make = function (_elm) {
-   "use strict";
-   _elm.Trampoline = _elm.Trampoline || {};
-   if (_elm.Trampoline.values) return _elm.Trampoline.values;
-   var _U = Elm.Native.Utils.make(_elm);
-   var _op = {};
-   var trampoline = function (tramp) {
-      trampoline: while (true) {
-         var _p0 = tramp;
-         if (_p0.ctor === "Done") {
-               return _p0._0;
-            } else {
-               var _v1 = _p0._0({ctor: "_Tuple0"});
-               tramp = _v1;
-               continue trampoline;
-            }
-      }
-   };
-   var Continue = function (a) {
-      return {ctor: "Continue",_0: a};
-   };
-   var Done = function (a) {    return {ctor: "Done",_0: a};};
-   return _elm.Trampoline.values = {_op: _op
-                                   ,trampoline: trampoline
-                                   ,Done: Done
-                                   ,Continue: Continue};
-};
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 },{}],2:[function(require,module,exports){
@@ -11577,97 +11549,93 @@ Elm.Html.Attributes.make = function (_elm) {
                                         ,property: property
                                         ,attribute: attribute};
 };
-Elm.Random = Elm.Random || {};
-Elm.Random.Array = Elm.Random.Array || {};
-Elm.Random.Array.make = function (_elm) {
+Elm.Html = Elm.Html || {};
+Elm.Html.Events = Elm.Html.Events || {};
+Elm.Html.Events.make = function (_elm) {
    "use strict";
-   _elm.Random = _elm.Random || {};
-   _elm.Random.Array = _elm.Random.Array || {};
-   if (_elm.Random.Array.values) return _elm.Random.Array.values;
+   _elm.Html = _elm.Html || {};
+   _elm.Html.Events = _elm.Html.Events || {};
+   if (_elm.Html.Events.values) return _elm.Html.Events.values;
    var _U = Elm.Native.Utils.make(_elm),
-   $Array = Elm.Array.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
-   $Random = Elm.Random.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
-   $Trampoline = Elm.Trampoline.make(_elm);
+   $VirtualDom = Elm.VirtualDom.make(_elm);
    var _op = {};
-   var choose = F2(function (seed,arr) {
-      if ($Array.isEmpty(arr)) return {ctor: "_Tuple3"
-                                      ,_0: $Maybe.Nothing
-                                      ,_1: seed
-                                      ,_2: arr}; else {
-            var lastIndex = $Array.length(arr) - 1;
-            var intGen = A2($Random.$int,0,lastIndex);
-            var _p0 = A2($Random.generate,intGen,seed);
-            var index = _p0._0;
-            var seed$ = _p0._1;
-            var front = A3($Array.slice,0,index,arr);
-            var back = _U.eq(index,
-            lastIndex) ? $Array.empty : A3($Array.slice,
-            index + 1,
-            $Array.length(arr),
-            arr);
-            return {ctor: "_Tuple3"
-                   ,_0: A2($Array.get,index,arr)
-                   ,_1: seed$
-                   ,_2: A2($Array.append,front,back)};
-         }
+   var keyCode = A2($Json$Decode._op[":="],
+   "keyCode",
+   $Json$Decode.$int);
+   var targetChecked = A2($Json$Decode.at,
+   _U.list(["target","checked"]),
+   $Json$Decode.bool);
+   var targetValue = A2($Json$Decode.at,
+   _U.list(["target","value"]),
+   $Json$Decode.string);
+   var defaultOptions = $VirtualDom.defaultOptions;
+   var Options = F2(function (a,b) {
+      return {stopPropagation: a,preventDefault: b};
    });
-   var shuffle = F2(function (seed,arr) {
-      if ($Array.isEmpty(arr)) return {ctor: "_Tuple2"
-                                      ,_0: arr
-                                      ,_1: seed}; else {
-            var helper = function (_p1) {
-               var _p2 = _p1;
-               var _p9 = _p2._1;
-               var _p8 = _p2._0;
-               var _p7 = _p2._2;
-               var _p3 = A2(choose,_p8,_p7);
-               var m_val = _p3._0;
-               var s$ = _p3._1;
-               var a$ = _p3._2;
-               var _p4 = m_val;
-               if (_p4.ctor === "Nothing") {
-                     return $Trampoline.Done({ctor: "_Tuple3"
-                                             ,_0: _p8
-                                             ,_1: _p9
-                                             ,_2: _p7});
-                  } else {
-                     return $Trampoline.Continue(function (_p5) {
-                        var _p6 = _p5;
-                        return helper({ctor: "_Tuple3"
-                                      ,_0: s$
-                                      ,_1: A2($List._op["::"],_p4._0,_p9)
-                                      ,_2: a$});
-                     });
-                  }
-            };
-            var _p10 = $Trampoline.trampoline(helper({ctor: "_Tuple3"
-                                                     ,_0: seed
-                                                     ,_1: _U.list([])
-                                                     ,_2: arr}));
-            var seed$ = _p10._0;
-            var shuffled = _p10._1;
-            return {ctor: "_Tuple2"
-                   ,_0: $Array.fromList(shuffled)
-                   ,_1: seed$};
-         }
+   var onWithOptions = $VirtualDom.onWithOptions;
+   var on = $VirtualDom.on;
+   var messageOn = F3(function (name,addr,msg) {
+      return A3(on,
+      name,
+      $Json$Decode.value,
+      function (_p0) {
+         return A2($Signal.message,addr,msg);
+      });
    });
-   var sample = F2(function (seed,arr) {
-      var intGen = A2($Random.$int,0,$Array.length(arr) - 1);
-      var _p11 = A2($Random.generate,intGen,seed);
-      var index = _p11._0;
-      var seed$ = _p11._1;
-      return {ctor: "_Tuple2",_0: A2($Array.get,index,arr),_1: seed$};
+   var onClick = messageOn("click");
+   var onDoubleClick = messageOn("dblclick");
+   var onMouseMove = messageOn("mousemove");
+   var onMouseDown = messageOn("mousedown");
+   var onMouseUp = messageOn("mouseup");
+   var onMouseEnter = messageOn("mouseenter");
+   var onMouseLeave = messageOn("mouseleave");
+   var onMouseOver = messageOn("mouseover");
+   var onMouseOut = messageOn("mouseout");
+   var onBlur = messageOn("blur");
+   var onFocus = messageOn("focus");
+   var onSubmit = messageOn("submit");
+   var onKey = F3(function (name,addr,handler) {
+      return A3(on,
+      name,
+      keyCode,
+      function (code) {
+         return A2($Signal.message,addr,handler(code));
+      });
    });
-   return _elm.Random.Array.values = {_op: _op
-                                     ,sample: sample
-                                     ,choose: choose
-                                     ,shuffle: shuffle};
+   var onKeyUp = onKey("keyup");
+   var onKeyDown = onKey("keydown");
+   var onKeyPress = onKey("keypress");
+   return _elm.Html.Events.values = {_op: _op
+                                    ,onBlur: onBlur
+                                    ,onFocus: onFocus
+                                    ,onSubmit: onSubmit
+                                    ,onKeyUp: onKeyUp
+                                    ,onKeyDown: onKeyDown
+                                    ,onKeyPress: onKeyPress
+                                    ,onClick: onClick
+                                    ,onDoubleClick: onDoubleClick
+                                    ,onMouseMove: onMouseMove
+                                    ,onMouseDown: onMouseDown
+                                    ,onMouseUp: onMouseUp
+                                    ,onMouseEnter: onMouseEnter
+                                    ,onMouseLeave: onMouseLeave
+                                    ,onMouseOver: onMouseOver
+                                    ,onMouseOut: onMouseOut
+                                    ,on: on
+                                    ,onWithOptions: onWithOptions
+                                    ,defaultOptions: defaultOptions
+                                    ,targetValue: targetValue
+                                    ,targetChecked: targetChecked
+                                    ,keyCode: keyCode
+                                    ,Options: Options};
 };
 Elm.Main = Elm.Main || {};
 Elm.Main.make = function (_elm) {
@@ -11680,178 +11648,257 @@ Elm.Main.make = function (_elm) {
    $Debug = Elm.Debug.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Random = Elm.Random.make(_elm),
-   $Random$Array = Elm.Random.Array.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
    var _op = {};
-   var cols = _U.list(["AliceBlue"
-                      ,"AntiqueWhite"
-                      ,"Aqua"
-                      ,"Aquamarine"
-                      ,"Azure"
-                      ,"Beige"
-                      ,"Bisque"
-                      ,"Black"
-                      ,"BlanchedAlmond"
-                      ,"Blue"
-                      ,"BlueViolet"
-                      ,"Brown"
-                      ,"BurlyWood"
-                      ,"CadetBlue"
-                      ,"Chartreuse"
-                      ,"Chocolate"
-                      ,"Coral"
-                      ,"CornflowerBlue"
-                      ,"Cornsilk"
-                      ,"Crimson"
-                      ,"Cyan"
-                      ,"DarkBlue"
-                      ,"DarkCyan"
-                      ,"DarkGoldenRod"
-                      ,"DarkGray"
-                      ,"DarkGreen"
-                      ,"DarkKhaki"
-                      ,"DarkMagenta"
-                      ,"DarkOliveGreen"
-                      ,"DarkOrange"
-                      ,"DarkOrchid"
-                      ,"DarkRed"
-                      ,"DarkSalmon"
-                      ,"DarkSeaGreen"
-                      ,"DarkSlateBlue"
-                      ,"DarkSlateGray"
-                      ,"DarkTurquoise"
-                      ,"DarkViolet"
-                      ,"DeepPink"
-                      ,"DeepSkyBlue"
-                      ,"DimGray"
-                      ,"DodgerBlue"
-                      ,"FireBrick"
-                      ,"FloralWhite"
-                      ,"ForestGreen"
-                      ,"Fuchsia"
-                      ,"Gainsboro"
-                      ,"GhostWhite"
-                      ,"Gold"
-                      ,"GoldenRod"
-                      ,"Gray"
-                      ,"Green"
-                      ,"GreenYellow"
-                      ,"HoneyDew"
-                      ,"HotPink"
-                      ,"IndianRed "
-                      ,"Indigo  "
-                      ,"Ivory"
-                      ,"Khaki"
-                      ,"Lavender"
-                      ,"LavenderBlush"
-                      ,"LawnGreen"
-                      ,"LemonChiffon"
-                      ,"LightBlue"
-                      ,"LightCoral"
-                      ,"LightCyan"
-                      ,"LightGoldenRodYellow"
-                      ,"LightGray"
-                      ,"LightGreen"
-                      ,"LightPink"
-                      ,"LightSalmon"
-                      ,"LightSeaGreen"
-                      ,"LightSkyBlue"
-                      ,"LightSlateGray"
-                      ,"LightSteelBlue"
-                      ,"LightYellow"
-                      ,"Lime"
-                      ,"LimeGreen"
-                      ,"Linen"
-                      ,"Magenta"
-                      ,"Maroon"
-                      ,"MediumAquaMarine"
-                      ,"MediumBlue"
-                      ,"MediumOrchid"
-                      ,"MediumPurple"
-                      ,"MediumSeaGreen"
-                      ,"MediumSlateBlue"
-                      ,"MediumSpringGreen"
-                      ,"MediumTurquoise"
-                      ,"MediumVioletRed"
-                      ,"MidnightBlue"
-                      ,"MintCream"
-                      ,"MistyRose"
-                      ,"Moccasin"
-                      ,"NavajoWhite"
-                      ,"Navy"
-                      ,"OldLace"
-                      ,"Olive"
-                      ,"OliveDrab"
-                      ,"Orange"
-                      ,"OrangeRed"
-                      ,"Orchid"
-                      ,"PaleGoldenRod"
-                      ,"PaleGreen"
-                      ,"PaleTurquoise"
-                      ,"PaleVioletRed"
-                      ,"PapayaWhip"
-                      ,"PeachPuff"
-                      ,"Peru"
-                      ,"Pink"
-                      ,"Plum"
-                      ,"PowderBlue"
-                      ,"Purple"
-                      ,"RebeccaPurple"
-                      ,"Red"
-                      ,"RosyBrown"
-                      ,"RoyalBlue"
-                      ,"SaddleBrown"
-                      ,"Salmon"
-                      ,"SandyBrown"
-                      ,"SeaGreen"
-                      ,"SeaShell"
-                      ,"Sienna"
-                      ,"Silver"
-                      ,"SkyBlue"
-                      ,"SlateBlue"
-                      ,"SlateGray"
-                      ,"Snow"
-                      ,"SpringGreen"
-                      ,"SteelBlue"
-                      ,"Tan"
-                      ,"Teal"
-                      ,"Thistle"
-                      ,"Tomato"
-                      ,"Turquoise"
-                      ,"Violet"
-                      ,"Wheat"
-                      ,"White"
-                      ,"WhiteSmoke"
-                      ,"Yellow"
-                      ,"YellowGreen"]);
-   var singleLink = function (c) {
-      return A2($Html.li,
-      _U.list([]),
-      _U.list([A2($Html.a,
-      _U.list([$Html$Attributes.href("#")
-              ,A2($Html$Attributes.attribute,"data-color",c)
-              ,$Html$Attributes.style(_U.list([{ctor: "_Tuple2"
-                                               ,_0: "background"
-                                               ,_1: c}]))]),
-      _U.list([]))]));
+   var colors = _U.list(["AliceBlue"
+                        ,"AntiqueWhite"
+                        ,"Aqua"
+                        ,"Aquamarine"
+                        ,"Azure"
+                        ,"Beige"
+                        ,"Bisque"
+                        ,"Black"
+                        ,"BlanchedAlmond"
+                        ,"Blue"
+                        ,"BlueViolet"
+                        ,"Brown"
+                        ,"BurlyWood"
+                        ,"CadetBlue"
+                        ,"Chartreuse"
+                        ,"Chocolate"
+                        ,"Coral"
+                        ,"CornflowerBlue"
+                        ,"Cornsilk"
+                        ,"Crimson"
+                        ,"Cyan"
+                        ,"DarkBlue"
+                        ,"DarkCyan"
+                        ,"DarkGoldenRod"
+                        ,"DarkGray"
+                        ,"DarkGreen"
+                        ,"DarkKhaki"
+                        ,"DarkMagenta"
+                        ,"DarkOliveGreen"
+                        ,"DarkOrange"
+                        ,"DarkOrchid"
+                        ,"DarkRed"
+                        ,"DarkSalmon"
+                        ,"DarkSeaGreen"
+                        ,"DarkSlateBlue"
+                        ,"DarkSlateGray"
+                        ,"DarkTurquoise"
+                        ,"DarkViolet"
+                        ,"DeepPink"
+                        ,"DeepSkyBlue"
+                        ,"DimGray"
+                        ,"DodgerBlue"
+                        ,"FireBrick"
+                        ,"FloralWhite"
+                        ,"ForestGreen"
+                        ,"Fuchsia"
+                        ,"Gainsboro"
+                        ,"GhostWhite"
+                        ,"Gold"
+                        ,"GoldenRod"
+                        ,"Gray"
+                        ,"Green"
+                        ,"GreenYellow"
+                        ,"HoneyDew"
+                        ,"HotPink"
+                        ,"IndianRed "
+                        ,"Indigo  "
+                        ,"Ivory"
+                        ,"Khaki"
+                        ,"Lavender"
+                        ,"LavenderBlush"
+                        ,"LawnGreen"
+                        ,"LemonChiffon"
+                        ,"LightBlue"
+                        ,"LightCoral"
+                        ,"LightCyan"
+                        ,"LightGoldenRodYellow"
+                        ,"LightGray"
+                        ,"LightGreen"
+                        ,"LightPink"
+                        ,"LightSalmon"
+                        ,"LightSeaGreen"
+                        ,"LightSkyBlue"
+                        ,"LightSlateGray"
+                        ,"LightSteelBlue"
+                        ,"LightYellow"
+                        ,"Lime"
+                        ,"LimeGreen"
+                        ,"Linen"
+                        ,"Magenta"
+                        ,"Maroon"
+                        ,"MediumAquaMarine"
+                        ,"MediumBlue"
+                        ,"MediumOrchid"
+                        ,"MediumPurple"
+                        ,"MediumSeaGreen"
+                        ,"MediumSlateBlue"
+                        ,"MediumSpringGreen"
+                        ,"MediumTurquoise"
+                        ,"MediumVioletRed"
+                        ,"MidnightBlue"
+                        ,"MintCream"
+                        ,"MistyRose"
+                        ,"Moccasin"
+                        ,"NavajoWhite"
+                        ,"Navy"
+                        ,"OldLace"
+                        ,"Olive"
+                        ,"OliveDrab"
+                        ,"Orange"
+                        ,"OrangeRed"
+                        ,"Orchid"
+                        ,"PaleGoldenRod"
+                        ,"PaleGreen"
+                        ,"PaleTurquoise"
+                        ,"PaleVioletRed"
+                        ,"PapayaWhip"
+                        ,"PeachPuff"
+                        ,"Peru"
+                        ,"Pink"
+                        ,"Plum"
+                        ,"PowderBlue"
+                        ,"Purple"
+                        ,"RebeccaPurple"
+                        ,"Red"
+                        ,"RosyBrown"
+                        ,"RoyalBlue"
+                        ,"SaddleBrown"
+                        ,"Salmon"
+                        ,"SandyBrown"
+                        ,"SeaGreen"
+                        ,"SeaShell"
+                        ,"Sienna"
+                        ,"Silver"
+                        ,"SkyBlue"
+                        ,"SlateBlue"
+                        ,"SlateGray"
+                        ,"Snow"
+                        ,"SpringGreen"
+                        ,"SteelBlue"
+                        ,"Tan"
+                        ,"Teal"
+                        ,"Thistle"
+                        ,"Tomato"
+                        ,"Turquoise"
+                        ,"Violet"
+                        ,"Wheat"
+                        ,"White"
+                        ,"WhiteSmoke"
+                        ,"Yellow"
+                        ,"YellowGreen"]);
+   _op["=>"] = F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};});
+   var mainDivStyle = _U.list([A2(_op["=>"],"max-width","510px")
+                              ,A2(_op["=>"],"padding","2em")
+                              ,A2(_op["=>"],"background","#FFDE00")
+                              ,A2(_op["=>"],"margin","0 auto")
+                              ,A2(_op["=>"],"position","relative")]);
+   var ulStyle = _U.list([A2(_op["=>"],"padding","2px")
+                         ,A2(_op["=>"],"overflow","auto")
+                         ,A2(_op["=>"],"background","#262626")
+                         ,A2(_op["=>"],"max-width","502px")]);
+   var liStyle = _U.list([A2(_op["=>"],"list-style","none"),A2(_op["=>"],"float","left")]);
+   var randomColorStyle = _U.list([A2(_op["=>"],"color","#fff"),A2(_op["=>"],"background-color","#262626"),A2(_op["=>"],"padding","10px")]);
+   var upperView = function (model) {
+      return A2($Html.p,
+      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"max-width","580px"),A2(_op["=>"],"min-height","60px"),A2(_op["=>"],"top","10px")]))]),
+      _U.list([$Html.text("Click the color ")
+              ,A2($Html.span,_U.list([$Html$Attributes.style(randomColorStyle)]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
+              ,$Html.text("  ")
+              ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))]))
+              ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))
+              ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
+              _U.list([]),
+              _U.list([$Html.text("Wrong, color was ")
+                      ,A2($Html.span,
+                      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"font-style","italic")]))]),
+                      _U.list([$Html.text(model.wrongColor)]))])) : A2($Html.div,_U.list([]),_U.list([]))]));
    };
-   var seed = $Random.initialSeed(48);
-   var randomized = $Array.toList($Basics.fst(A2($Random$Array.shuffle,
-   seed,
-   $Array.fromList(cols))));
-   var view = A2($Html.ul,
-   _U.list([]),
-   A2($List.map,singleLink,randomized));
-   var main = view;
+   var colorStyle = function (color) {
+      return _U.list([A2(_op["=>"],"line-height","50px")
+                     ,A2(_op["=>"],"font-size","40px")
+                     ,A2(_op["=>"],"text-align","center")
+                     ,A2(_op["=>"],"font-weight","bold")
+                     ,A2(_op["=>"],"width","50px")
+                     ,A2(_op["=>"],"color","#000")
+                     ,A2(_op["=>"],"background-color",color)
+                     ,A2(_op["=>"],"height","50px")
+                     ,A2(_op["=>"],"display","block")
+                     ,A2(_op["=>"],"transform","scale(0.85)")
+                     ,A2(_op["=>"],"transition","0.4s")]);
+   };
+   var nextRandom = F2(function (colors,seed) {
+      var array = $Array.fromList(colors);
+      var r = A2($Random.generate,A2($Random.$int,0,$List.length(colors) - 1),seed);
+      var result = A2($Maybe.withDefault,"",A2($Array.get,$Basics.fst(r),array));
+      return {ctor: "_Tuple2",_0: $Basics.snd(r),_1: result};
+   });
+   var nextRandomColor = nextRandom(colors);
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "NoOp") {
+            return model;
+         } else {
+            var _p1 = _p0._0;
+            return _U.eq(_p1,$Basics.snd(model.randomColor)) ? _U.update(model,
+            {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: model.correctGuesses + 1,wrongColor: ""}) : _U.update(model,
+            {wrongGuesses: model.wrongGuesses + 1,wrongColor: _p1});
+         }
+   });
+   var Guess = function (a) {    return {ctor: "Guess",_0: a};};
+   var guessInbox = $Signal.mailbox(Guess(""));
+   var actions = guessInbox.signal;
+   var singleColorView = function (color) {
+      return A2($Html.li,
+      _U.list([$Html$Attributes.style(liStyle)]),
+      _U.list([A2($Html.a,
+      _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,Guess(color)),$Html$Attributes.style(colorStyle(color))]),
+      _U.list([$Html.text(" ")]))]));
+   };
+   var view = F2(function (act,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.style(mainDivStyle)]),
+      _U.list([upperView(model),A2($Html.ul,_U.list([$Html$Attributes.style(ulStyle)]),A2($List.map,singleColorView,colors))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var Model = F4(function (a,b,c,d) {    return {randomColor: a,correctGuesses: b,wrongGuesses: c,wrongColor: d};});
+   var random = Elm.Native.Port.make(_elm).inbound("random",
+   "Int",
+   function (v) {
+      return typeof v === "number" && isFinite(v) && Math.floor(v) === v ? v : _U.badPort("an integer",v);
+   });
+   var initialModel = {randomColor: nextRandomColor($Random.initialSeed(random)),correctGuesses: 0,wrongGuesses: 0,wrongColor: ""};
+   var model = A3($Signal.foldp,update,initialModel,actions);
+   var main = A2($Signal.map,view(guessInbox.address),model);
    return _elm.Main.values = {_op: _op
-                             ,main: main
-                             ,seed: seed
-                             ,randomized: randomized
+                             ,Model: Model
+                             ,initialModel: initialModel
+                             ,NoOp: NoOp
+                             ,Guess: Guess
+                             ,update: update
+                             ,guessInbox: guessInbox
+                             ,actions: actions
+                             ,nextRandomColor: nextRandomColor
+                             ,nextRandom: nextRandom
+                             ,upperView: upperView
+                             ,singleColorView: singleColorView
                              ,view: view
-                             ,singleLink: singleLink
-                             ,cols: cols};
+                             ,mainDivStyle: mainDivStyle
+                             ,ulStyle: ulStyle
+                             ,liStyle: liStyle
+                             ,randomColorStyle: randomColorStyle
+                             ,colorStyle: colorStyle
+                             ,model: model
+                             ,main: main
+                             ,colors: colors};
 };

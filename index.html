@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Main</title>
-<link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="elm.js"></script>
 <style>
 html,head,body { padding:0; margin:0; }
@@ -11,6 +10,6 @@ body { font-family: calibri, helvetica, arial, sans-serif; }
 </style>
 </head>
 <body>
-<script type="text/javascript">Elm.fullscreen(Elm.Main);</script>
+<script type="text/javascript">Elm.fullscreen(Elm.Main, {random: Math.floor(Math.random()*0xFFFFFFFF)});</script>
 </body>
 </html>
