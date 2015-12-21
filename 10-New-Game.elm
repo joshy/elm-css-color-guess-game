@@ -26,7 +26,7 @@ initialModel =
   }
 
 
-type Action = NoOp | Guess String
+type Action = NoOp | Guess String | NewGame
 
 
 update : Action -> Model -> Model
@@ -34,6 +34,11 @@ update action model =
   case action of
     NoOp 
       -> model
+    NewGame 
+      -> { model | randomColor = nextRandomColor (fst model.randomColor)
+                  , correctGuesses = 0
+                  , wrongGuesses = 0
+                  , wrongColor = "" }
     Guess color
       ->
         if color == snd model.randomColor then
@@ -77,19 +82,32 @@ upperView : Model -> Html
 upperView model =
     p [ style [ "max-width" => "580px"
               , "min-height" => "60px"
+              , "margin" => "0"
               ] 
         ]
         [ text "Click the color "
         , span [ style randomColorStyle ] [ text (snd model.randomColor) ]
         , text "  " 
-        , span [ ] [ span [ ] [ text (toString model.correctGuesses)
+        , span [ ] [ 
+                     span [ ] [ text (toString model.correctGuesses)
                               , text " / " 
                               ] 
+                   , span [ ] [ 
+                               span [ ] [ text (toString model.wrongGuesses) ] 
+                               ]
                    ]
-        , span [ ] [ span [ ] [ text (toString model.wrongGuesses) ] ]
+        , a [ href "#"
+            , onClick guessInbox.address NewGame 
+            , style [ "float" => "right"
+                    , "color" => "white"
+                    , "background" => "rgb(38,38,38)"
+                    , "padding" => "10px"
+                    , "margin-top" => "-10px"  ]
+            ] 
+            [ text "New Game" ]                        
         , if (String.length model.wrongColor > 0) then 
             p [ ] [ text "Wrong, color was "
-                  , span [ style ["font-style" => "italic" ] ] [ text model.wrongColor ] 
+                  , span [ style [ "font-style" => "italic" ] ] [ text model.wrongColor ] 
                   ]
           else 
             div [] []
@@ -138,7 +156,8 @@ liStyle = [ "list-style" =>  "none"
 
 randomColorStyle  = [ "color" => "#fff"
                     , "background-color" => "#262626"
-                    , "padding" => "10px" 
+                    , "padding" => "10px"
+                    , "margin-right" => "15px" 
                     ]
 
 
