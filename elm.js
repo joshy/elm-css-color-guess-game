@@ -11798,45 +11798,7 @@ Elm.Main.make = function (_elm) {
                         ,"Yellow"
                         ,"YellowGreen"]);
    _op["=>"] = F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};});
-   var mainDivStyle = _U.list([A2(_op["=>"],"max-width","510px")
-                              ,A2(_op["=>"],"padding","2em")
-                              ,A2(_op["=>"],"background","#FFDE00")
-                              ,A2(_op["=>"],"margin","0 auto")
-                              ,A2(_op["=>"],"position","relative")]);
-   var ulStyle = _U.list([A2(_op["=>"],"padding","2px")
-                         ,A2(_op["=>"],"overflow","auto")
-                         ,A2(_op["=>"],"background","#262626")
-                         ,A2(_op["=>"],"max-width","502px")]);
-   var liStyle = _U.list([A2(_op["=>"],"list-style","none"),A2(_op["=>"],"float","left")]);
-   var randomColorStyle = _U.list([A2(_op["=>"],"color","#fff"),A2(_op["=>"],"background-color","#262626"),A2(_op["=>"],"padding","10px")]);
-   var upperView = function (model) {
-      return A2($Html.p,
-      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"max-width","580px"),A2(_op["=>"],"min-height","60px"),A2(_op["=>"],"top","10px")]))]),
-      _U.list([$Html.text("Click the color ")
-              ,A2($Html.span,_U.list([$Html$Attributes.style(randomColorStyle)]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
-              ,$Html.text("  ")
-              ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))]))
-              ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))
-              ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
-              _U.list([]),
-              _U.list([$Html.text("Wrong, color was ")
-                      ,A2($Html.span,
-                      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"font-style","italic")]))]),
-                      _U.list([$Html.text(model.wrongColor)]))])) : A2($Html.div,_U.list([]),_U.list([]))]));
-   };
-   var colorStyle = function (color) {
-      return _U.list([A2(_op["=>"],"line-height","50px")
-                     ,A2(_op["=>"],"font-size","40px")
-                     ,A2(_op["=>"],"text-align","center")
-                     ,A2(_op["=>"],"font-weight","bold")
-                     ,A2(_op["=>"],"width","50px")
-                     ,A2(_op["=>"],"color","#000")
-                     ,A2(_op["=>"],"background-color",color)
-                     ,A2(_op["=>"],"height","50px")
-                     ,A2(_op["=>"],"display","block")
-                     ,A2(_op["=>"],"transform","scale(0.85)")
-                     ,A2(_op["=>"],"transition","0.4s")]);
-   };
+   var colorStyle = function (color) {    return _U.list([A2(_op["=>"],"background-color",color)]);};
    var nextRandom = F2(function (colors,seed) {
       var array = $Array.fromList(colors);
       var r = A2($Random.generate,A2($Random.$int,0,$List.length(colors) - 1),seed);
@@ -11846,29 +11808,51 @@ Elm.Main.make = function (_elm) {
    var nextRandomColor = nextRandom(colors);
    var update = F2(function (action,model) {
       var _p0 = action;
-      if (_p0.ctor === "NoOp") {
-            return model;
-         } else {
-            var _p1 = _p0._0;
-            return _U.eq(_p1,$Basics.snd(model.randomColor)) ? _U.update(model,
-            {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: model.correctGuesses + 1,wrongColor: ""}) : _U.update(model,
-            {wrongGuesses: model.wrongGuesses + 1,wrongColor: _p1});
-         }
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "NewGame": return _U.update(model,
+           {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: 0,wrongGuesses: 0,wrongColor: ""});
+         default: var _p1 = _p0._0;
+           return _U.eq(_p1,$Basics.snd(model.randomColor)) ? _U.update(model,
+           {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: model.correctGuesses + 1,wrongColor: ""}) : _U.update(model,
+           {wrongGuesses: model.wrongGuesses + 1,wrongColor: _p1});}
    });
+   var NewGame = {ctor: "NewGame"};
    var Guess = function (a) {    return {ctor: "Guess",_0: a};};
    var guessInbox = $Signal.mailbox(Guess(""));
    var actions = guessInbox.signal;
+   var upperView = function (model) {
+      return A2($Html.p,
+      _U.list([$Html$Attributes.$class("upperView")]),
+      _U.list([$Html.text("Click the color ")
+              ,A2($Html.span,_U.list([$Html$Attributes.$class("randomColorStyle")]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
+              ,$Html.text("  ")
+              ,A2($Html.span,
+              _U.list([]),
+              _U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))
+                      ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))]))
+              ,A2($Html.a,
+              _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame),$Html$Attributes.$class("newGame")]),
+              _U.list([$Html.text("New Game")]))
+              ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
+              _U.list([]),
+              _U.list([$Html.text("Wrong, color was ")
+                      ,A2($Html.span,
+                      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"font-style","italic")]))]),
+                      _U.list([$Html.text(model.wrongColor)]))])) : A2($Html.div,_U.list([]),_U.list([]))]));
+   };
    var singleColorView = function (color) {
       return A2($Html.li,
-      _U.list([$Html$Attributes.style(liStyle)]),
+      _U.list([]),
       _U.list([A2($Html.a,
-      _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,Guess(color)),$Html$Attributes.style(colorStyle(color))]),
+      _U.list([$Html$Attributes.href("#")
+              ,A2($Html$Events.onClick,guessInbox.address,Guess(color))
+              ,$Html$Attributes.style(colorStyle(color))
+              ,$Html$Attributes.$class("colorStyle")]),
       _U.list([$Html.text(" ")]))]));
    };
    var view = F2(function (act,model) {
-      return A2($Html.div,
-      _U.list([$Html$Attributes.style(mainDivStyle)]),
-      _U.list([upperView(model),A2($Html.ul,_U.list([$Html$Attributes.style(ulStyle)]),A2($List.map,singleColorView,colors))]));
+      return A2($Html.div,_U.list([$Html$Attributes.id("mainDiv")]),_U.list([upperView(model),A2($Html.ul,_U.list([]),A2($List.map,singleColorView,colors))]));
    });
    var NoOp = {ctor: "NoOp"};
    var Model = F4(function (a,b,c,d) {    return {randomColor: a,correctGuesses: b,wrongGuesses: c,wrongColor: d};});
@@ -11885,6 +11869,7 @@ Elm.Main.make = function (_elm) {
                              ,initialModel: initialModel
                              ,NoOp: NoOp
                              ,Guess: Guess
+                             ,NewGame: NewGame
                              ,update: update
                              ,guessInbox: guessInbox
                              ,actions: actions
@@ -11893,10 +11878,6 @@ Elm.Main.make = function (_elm) {
                              ,upperView: upperView
                              ,singleColorView: singleColorView
                              ,view: view
-                             ,mainDivStyle: mainDivStyle
-                             ,ulStyle: ulStyle
-                             ,liStyle: liStyle
-                             ,randomColorStyle: randomColorStyle
                              ,colorStyle: colorStyle
                              ,model: model
                              ,main: main

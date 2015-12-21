@@ -18,8 +18,8 @@ type alias Model =
 
 
 initialModel : Model
-initialModel = 
-  { randomColor = nextRandomColor (Random.initialSeed random) 
+initialModel =
+  { randomColor = nextRandomColor (Random.initialSeed random)
   , correctGuesses = 0
   , wrongGuesses = 0
   , wrongColor = ""
@@ -30,11 +30,11 @@ type Action = NoOp | Guess String | NewGame
 
 
 update : Action -> Model -> Model
-update action model = 
+update action model =
   case action of
-    NoOp 
+    NoOp
       -> model
-    NewGame 
+    NewGame
       -> { model | randomColor = nextRandomColor (fst model.randomColor)
                   , correctGuesses = 0
                   , wrongGuesses = 0
@@ -46,7 +46,7 @@ update action model =
                   , correctGuesses = model.correctGuesses + 1
                   , wrongColor = "" }
         else
-          { model | wrongGuesses = model.wrongGuesses + 1 
+          { model | wrongGuesses = model.wrongGuesses + 1
                   , wrongColor = color }
 
 
@@ -57,7 +57,7 @@ guessInbox =
 
 actions : Signal Action
 actions =
-  guessInbox.signal 
+  guessInbox.signal
 
 
 nextRandomColor : Random.Seed -> ( Random.Seed, String )
@@ -70,8 +70,8 @@ nextRandom colors seed =
     r = Random.generate (Random.int 0 (List.length colors - 1)) seed
     array = Array.fromList colors
     result = Maybe.withDefault "" (Array.get (fst r) array)
-  in 
-    (snd r, result)  
+  in
+    (snd r, result)
 
 
 (=>) : a -> b -> ( a, b )
@@ -80,110 +80,61 @@ nextRandom colors seed =
 
 upperView : Model -> Html
 upperView model =
-    p [ style [ "max-width" => "580px"
-              , "min-height" => "60px"
-              , "margin" => "0"
-              ] 
-        ]
+    p [ class "upperView" ]
         [ text "Click the color "
-        , span [ style randomColorStyle ] [ text (snd model.randomColor) ]
-        , text "  " 
-        , span [ ] [ 
-                     span [ ] [ text (toString model.correctGuesses)
-                              , text " / " 
-                              ] 
-                   , span [ ] [ 
-                               span [ ] [ text (toString model.wrongGuesses) ] 
-                               ]
+        , span [ class "randomColorStyle" ] [ text (snd model.randomColor) ]
+        , text "  "
+        , span [ ] [ span [ ] [ text (toString model.correctGuesses)
+                              , text " / "
+                              ]
+                   , span [ ] [ span [ ] [ text (toString model.wrongGuesses) ] ]
                    ]
         , a [ href "#"
-            , onClick guessInbox.address NewGame 
-            , style [ "float" => "right"
-                    , "color" => "white"
-                    , "background" => "rgb(38,38,38)"
-                    , "padding" => "10px"
-                    , "margin-top" => "-10px"  ]
-            ] 
-            [ text "New Game" ]                        
-        , if (String.length model.wrongColor > 0) then 
+            , onClick guessInbox.address NewGame
+            , class "newGame"
+            ]
+            [ text "New Game" ]
+        , if (String.length model.wrongColor > 0) then
             p [ ] [ text "Wrong, color was "
-                  , span [ style [ "font-style" => "italic" ] ] [ text model.wrongColor ] 
+                  , span [ style [ "font-style" => "italic" ] ] [ text model.wrongColor ]
                   ]
-          else 
-            div [] []
+          else
+            div [ ] [ ]
         ]
 
 
 singleColorView : String -> Html
 singleColorView color =
-  li [ style liStyle ] [ a 
-                          [ href "#"
-                          , onClick guessInbox.address (Guess color)
-                          , style (colorStyle color)
-                          ]
-                          [ text " " ]
-                        ]  
+  li [ ] [ a
+           [ href "#"
+           , onClick guessInbox.address (Guess color)
+           , style (colorStyle color)
+           , class "colorStyle"
+           ]
+           [ text " " ]
+         ]
 
 
 view :  Signal.Address Action -> Model ->  Html
 view act model =
-  div [ style mainDivStyle ]
+  div [ id "mainDiv" ]
     [ upperView model
-    , ul [ style ulStyle ] 
+    , ul [ ]
         (List.map singleColorView colors)
     ]
 
 
-mainDivStyle = [ "max-width" => "510px"
-               , "padding" => "2em"
-               , "background" => "#FFDE00"
-               , "margin" => "0 auto"
-               , "position" => "relative"
-               ]
-
-
-ulStyle = [ "padding" => "2px"
-          , "overflow" => "auto"
-          , "background" => "#262626"
-          , "max-width" => "502px"
-          ]
-
-
-liStyle = [ "list-style" =>  "none"
-          , "float" => "left"
-          ]
-
-
-randomColorStyle  = [ "color" => "#fff"
-                    , "background-color" => "#262626"
-                    , "padding" => "10px"
-                    , "margin-right" => "15px" 
-                    ]
-
-
-colorStyle color = [ "line-height" =>  "50px"
-                   , "font-size" => "40px"
-                   , "text-align" => "center"
-                   , "font-weight" => "bold"
-                   , "width" => "50px"
-                   , "color" => "#000"
-                   , "background-color" => color
-                   , "height" => "50px"
-                   , "display" => "block"
-                   , "transform" => "scale(0.85)"
-                   , "transition" => "0.4s"
-                   ]
+colorStyle color = [ "background-color" => color ]
 
 
 model : Signal Model
-model = 
+model =
   Signal.foldp update initialModel actions
 
 
 main : Signal Html
-main = 
-  Signal.map (view guessInbox.address) model  
-
+main =
+  Signal.map (view guessInbox.address) model
 
 
 colors : List String
