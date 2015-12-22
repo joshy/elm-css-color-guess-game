@@ -8,9 +8,15 @@ import String
 
 port random : Int
 
+type Action = NoOp | GuessColor String | NewGame Int | DefaultNewGame
+
+type alias GameSize = Int
+gameSize = 80
+
 
 type alias Model =
-  { randomColor : (Random.Seed, String)
+  { colors : List String
+  , randomColor : (Random.Seed, String)
   , correctGuesses : Int
   , wrongGuesses : Int
   , wrongColor : String
@@ -19,14 +25,26 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-  { randomColor = nextRandomColor (Random.initialSeed random)
-  , correctGuesses = 0
-  , wrongGuesses = 0
-  , wrongColor = ""
-  }
+ let
+   colors = filterColors allColors 40 random
+ in
+   { colors = colors
+   , randomColor = nextRandomColor colors (Random.initialSeed random)
+   , correctGuesses = 0
+   , wrongGuesses = 0
+   , wrongColor = ""
+   }
 
 
-type Action = NoOp | Guess String | NewGame
+filterColors : List String -> Int -> Int -> List String
+filterColors colors gameSize randomInt =
+  let
+    generator = Random.list gameSize (Random.int 0 (List.length colors))
+    randomValues = fst <| Random.generate generator <| Random.initialSeed random
+    listValues =  Array.toList
+      <| Array.map (\n -> Array.get n (Array.fromList colors)) (Array.fromList randomValues)
+  in
+    List.filterMap identity listValues
 
 
 update : Action -> Model -> Model
@@ -34,15 +52,22 @@ update action model =
   case action of
     NoOp
       -> model
-    NewGame
-      -> { model | randomColor = nextRandomColor (fst model.randomColor)
-                  , correctGuesses = 0
-                  , wrongGuesses = 0
-                  , wrongColor = "" }
-    Guess color
+    DefaultNewGame
+      -> { model | colors = filterColors allColors (List.length model.colors) random
+                 , randomColor = nextRandomColor model.colors (fst model.randomColor)
+                 , correctGuesses = 0
+                 , wrongGuesses = 0
+                 , wrongColor = "" }
+    NewGame gameSize
+      -> { model | colors = filterColors allColors gameSize random
+                 , randomColor = nextRandomColor model.colors (fst model.randomColor)
+                 , correctGuesses = 0
+                 , wrongGuesses = 0
+                 , wrongColor = "" }
+    GuessColor color
       ->
         if color == snd model.randomColor then
-          { model | randomColor = nextRandomColor (fst model.randomColor)
+          { model | randomColor = nextRandomColor model.colors (fst model.randomColor)
                   , correctGuesses = model.correctGuesses + 1
                   , wrongColor = "" }
         else
@@ -52,7 +77,7 @@ update action model =
 
 guessInbox : Signal.Mailbox Action
 guessInbox =
-  Signal.mailbox (Guess "")
+  Signal.mailbox NoOp
 
 
 actions : Signal Action
@@ -60,8 +85,8 @@ actions =
   guessInbox.signal
 
 
-nextRandomColor : Random.Seed -> ( Random.Seed, String )
-nextRandomColor = nextRandom colors
+nextRandomColor : List String -> Random.Seed ->  ( Random.Seed, String )
+nextRandomColor colors = nextRandom colors
 
 
 nextRandom : List String -> Random.Seed -> (Random.Seed, String)
@@ -74,41 +99,65 @@ nextRandom colors seed =
     (snd r, result)
 
 
-(=>) : a -> b -> ( a, b )
-(=>) = (,)
-
-
 upperView : Model -> Html
 upperView model =
-    p [ class "upperView" ]
-        [ text "Click the color "
-        , span [ class "randomColorStyle" ] [ text (snd model.randomColor) ]
-        , text "  "
-        , span [ ] [ span [ ] [ text (toString model.correctGuesses)
-                              , text " / "
-                              ]
-                   , span [ ] [ span [ ] [ text (toString model.wrongGuesses) ] ]
-                   ]
-        , a [ href "#"
-            , onClick guessInbox.address NewGame
-            , class "newGame"
-            ]
-            [ text "New Game" ]
-        , if (String.length model.wrongColor > 0) then
-            p [ ] [ text "Wrong, color was "
-                  , span [ style [ "font-style" => "italic" ] ] [ text model.wrongColor ]
-                  ]
-          else
-            div [ ] [ ]
+    div [ class "upperView" ]
+        [ p [ ] [ text "Click color "
+                , span [ class "randomColorStyle" ] [ text (snd model.randomColor) ]
+                , text "  "
+                , span [ ] [ span [ ] [ text (toString model.correctGuesses)
+                                      , text " / "
+                                      ]
+                          , span [ ] [ span [ ] [ text (toString model.wrongGuesses) ] ]
+                          ]
+                , a [ href "#"
+                    , onClick guessInbox.address DefaultNewGame
+                    , class "newGame"
+                    ]
+                    [ text "New Game" ]
+                , if (String.length model.wrongColor > 0) then
+                    p [ ] [ text "No, was "
+                          , span [ style [ ("font-style", "italic") ] ]
+                                 [ text model.wrongColor ]
+                          , newGameSection
+                          ]
+                  else
+                    p [ ] [ newGameSection]
+                ]
         ]
+
+
+newGameSection : Html
+newGameSection =
+    span [ style [("float", "right")] ]
+         [ text "Colors: "
+         , span [ class "gameSize" ]
+                [ a [ href "#"
+                    , onClick guessInbox.address (NewGame 40)
+                    ]
+                    [ text " 40 " ]
+                , a [ href "#"
+                    , onClick guessInbox.address (NewGame 80)
+                    ]
+                    [ text " 80 " ]
+                , a [ href "#"
+                    , onClick guessInbox.address (NewGame 120)
+                    ]
+                    [ text " 120 " ]
+                , a [ href "#"
+                    , onClick guessInbox.address (NewGame (List.length allColors))
+                    ]
+                    [ text " All " ]
+                ]
+         ]
 
 
 singleColorView : String -> Html
 singleColorView color =
   li [ ] [ a
            [ href "#"
-           , onClick guessInbox.address (Guess color)
-           , style (colorStyle color)
+           , onClick guessInbox.address (GuessColor color)
+           , style [ colorStyle color ]
            , class "colorStyle"
            ]
            [ text " " ]
@@ -120,11 +169,11 @@ view act model =
   div [ id "mainDiv" ]
     [ upperView model
     , ul [ ]
-        (List.map singleColorView colors)
+        (List.map singleColorView model.colors)
     ]
 
 
-colorStyle color = [ "background-color" => color ]
+colorStyle color = ("background-color", color)
 
 
 model : Signal Model
@@ -137,8 +186,8 @@ main =
   Signal.map (view guessInbox.address) model
 
 
-colors : List String
-colors =
+allColors : List String
+allColors =
   [ "AliceBlue"
   , "AntiqueWhite"
   , "Aqua"

@@ -1,5 +1,8 @@
 html,head,body { padding:0; margin:0; }
-body { font-family: calibri, helvetica, arial, sans-serif; }
+body {
+  font-family: calibri, helvetica, arial, sans-serif;
+  background: rgb(38,38,38);
+}
 
 #mainDiv {
   max-width: 510px;
@@ -13,14 +16,22 @@ body { font-family: calibri, helvetica, arial, sans-serif; }
   float: right;
   color: white;
   background: rgb(38,38,38);
-  padding: 10px;
+  padding: 7px;
   margin-top: -10px;
+  text-decoration: none;
 }
 
 .upperView {
   max-width : 580px;
-  min-height: 60px;
+  min-height: 70px;
   margin: 0;
+}
+
+span.gameSize a{
+  color: white;
+  background: rgb(38,38,38);
+  padding: 7px;
+  text-decoration: none;
 }
 
 ul {
@@ -38,7 +49,7 @@ li {
 .randomColorStyle  {
    color: #fff;
    background-color: #262626;
-   padding: 10px;
+   padding: 7px;
    margin-right: 15px;
 }
 

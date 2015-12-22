@@ -11656,175 +11656,180 @@ Elm.Main.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $String = Elm.String.make(_elm);
    var _op = {};
-   var colors = _U.list(["AliceBlue"
-                        ,"AntiqueWhite"
-                        ,"Aqua"
-                        ,"Aquamarine"
-                        ,"Azure"
-                        ,"Beige"
-                        ,"Bisque"
-                        ,"Black"
-                        ,"BlanchedAlmond"
-                        ,"Blue"
-                        ,"BlueViolet"
-                        ,"Brown"
-                        ,"BurlyWood"
-                        ,"CadetBlue"
-                        ,"Chartreuse"
-                        ,"Chocolate"
-                        ,"Coral"
-                        ,"CornflowerBlue"
-                        ,"Cornsilk"
-                        ,"Crimson"
-                        ,"Cyan"
-                        ,"DarkBlue"
-                        ,"DarkCyan"
-                        ,"DarkGoldenRod"
-                        ,"DarkGray"
-                        ,"DarkGreen"
-                        ,"DarkKhaki"
-                        ,"DarkMagenta"
-                        ,"DarkOliveGreen"
-                        ,"DarkOrange"
-                        ,"DarkOrchid"
-                        ,"DarkRed"
-                        ,"DarkSalmon"
-                        ,"DarkSeaGreen"
-                        ,"DarkSlateBlue"
-                        ,"DarkSlateGray"
-                        ,"DarkTurquoise"
-                        ,"DarkViolet"
-                        ,"DeepPink"
-                        ,"DeepSkyBlue"
-                        ,"DimGray"
-                        ,"DodgerBlue"
-                        ,"FireBrick"
-                        ,"FloralWhite"
-                        ,"ForestGreen"
-                        ,"Fuchsia"
-                        ,"Gainsboro"
-                        ,"GhostWhite"
-                        ,"Gold"
-                        ,"GoldenRod"
-                        ,"Gray"
-                        ,"Green"
-                        ,"GreenYellow"
-                        ,"HoneyDew"
-                        ,"HotPink"
-                        ,"IndianRed "
-                        ,"Indigo  "
-                        ,"Ivory"
-                        ,"Khaki"
-                        ,"Lavender"
-                        ,"LavenderBlush"
-                        ,"LawnGreen"
-                        ,"LemonChiffon"
-                        ,"LightBlue"
-                        ,"LightCoral"
-                        ,"LightCyan"
-                        ,"LightGoldenRodYellow"
-                        ,"LightGray"
-                        ,"LightGreen"
-                        ,"LightPink"
-                        ,"LightSalmon"
-                        ,"LightSeaGreen"
-                        ,"LightSkyBlue"
-                        ,"LightSlateGray"
-                        ,"LightSteelBlue"
-                        ,"LightYellow"
-                        ,"Lime"
-                        ,"LimeGreen"
-                        ,"Linen"
-                        ,"Magenta"
-                        ,"Maroon"
-                        ,"MediumAquaMarine"
-                        ,"MediumBlue"
-                        ,"MediumOrchid"
-                        ,"MediumPurple"
-                        ,"MediumSeaGreen"
-                        ,"MediumSlateBlue"
-                        ,"MediumSpringGreen"
-                        ,"MediumTurquoise"
-                        ,"MediumVioletRed"
-                        ,"MidnightBlue"
-                        ,"MintCream"
-                        ,"MistyRose"
-                        ,"Moccasin"
-                        ,"NavajoWhite"
-                        ,"Navy"
-                        ,"OldLace"
-                        ,"Olive"
-                        ,"OliveDrab"
-                        ,"Orange"
-                        ,"OrangeRed"
-                        ,"Orchid"
-                        ,"PaleGoldenRod"
-                        ,"PaleGreen"
-                        ,"PaleTurquoise"
-                        ,"PaleVioletRed"
-                        ,"PapayaWhip"
-                        ,"PeachPuff"
-                        ,"Peru"
-                        ,"Pink"
-                        ,"Plum"
-                        ,"PowderBlue"
-                        ,"Purple"
-                        ,"RebeccaPurple"
-                        ,"Red"
-                        ,"RosyBrown"
-                        ,"RoyalBlue"
-                        ,"SaddleBrown"
-                        ,"Salmon"
-                        ,"SandyBrown"
-                        ,"SeaGreen"
-                        ,"SeaShell"
-                        ,"Sienna"
-                        ,"Silver"
-                        ,"SkyBlue"
-                        ,"SlateBlue"
-                        ,"SlateGray"
-                        ,"Snow"
-                        ,"SpringGreen"
-                        ,"SteelBlue"
-                        ,"Tan"
-                        ,"Teal"
-                        ,"Thistle"
-                        ,"Tomato"
-                        ,"Turquoise"
-                        ,"Violet"
-                        ,"Wheat"
-                        ,"White"
-                        ,"WhiteSmoke"
-                        ,"Yellow"
-                        ,"YellowGreen"]);
-   _op["=>"] = F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};});
-   var colorStyle = function (color) {    return _U.list([A2(_op["=>"],"background-color",color)]);};
+   var allColors = _U.list(["AliceBlue"
+                           ,"AntiqueWhite"
+                           ,"Aqua"
+                           ,"Aquamarine"
+                           ,"Azure"
+                           ,"Beige"
+                           ,"Bisque"
+                           ,"Black"
+                           ,"BlanchedAlmond"
+                           ,"Blue"
+                           ,"BlueViolet"
+                           ,"Brown"
+                           ,"BurlyWood"
+                           ,"CadetBlue"
+                           ,"Chartreuse"
+                           ,"Chocolate"
+                           ,"Coral"
+                           ,"CornflowerBlue"
+                           ,"Cornsilk"
+                           ,"Crimson"
+                           ,"Cyan"
+                           ,"DarkBlue"
+                           ,"DarkCyan"
+                           ,"DarkGoldenRod"
+                           ,"DarkGray"
+                           ,"DarkGreen"
+                           ,"DarkKhaki"
+                           ,"DarkMagenta"
+                           ,"DarkOliveGreen"
+                           ,"DarkOrange"
+                           ,"DarkOrchid"
+                           ,"DarkRed"
+                           ,"DarkSalmon"
+                           ,"DarkSeaGreen"
+                           ,"DarkSlateBlue"
+                           ,"DarkSlateGray"
+                           ,"DarkTurquoise"
+                           ,"DarkViolet"
+                           ,"DeepPink"
+                           ,"DeepSkyBlue"
+                           ,"DimGray"
+                           ,"DodgerBlue"
+                           ,"FireBrick"
+                           ,"FloralWhite"
+                           ,"ForestGreen"
+                           ,"Fuchsia"
+                           ,"Gainsboro"
+                           ,"GhostWhite"
+                           ,"Gold"
+                           ,"GoldenRod"
+                           ,"Gray"
+                           ,"Green"
+                           ,"GreenYellow"
+                           ,"HoneyDew"
+                           ,"HotPink"
+                           ,"IndianRed "
+                           ,"Indigo  "
+                           ,"Ivory"
+                           ,"Khaki"
+                           ,"Lavender"
+                           ,"LavenderBlush"
+                           ,"LawnGreen"
+                           ,"LemonChiffon"
+                           ,"LightBlue"
+                           ,"LightCoral"
+                           ,"LightCyan"
+                           ,"LightGoldenRodYellow"
+                           ,"LightGray"
+                           ,"LightGreen"
+                           ,"LightPink"
+                           ,"LightSalmon"
+                           ,"LightSeaGreen"
+                           ,"LightSkyBlue"
+                           ,"LightSlateGray"
+                           ,"LightSteelBlue"
+                           ,"LightYellow"
+                           ,"Lime"
+                           ,"LimeGreen"
+                           ,"Linen"
+                           ,"Magenta"
+                           ,"Maroon"
+                           ,"MediumAquaMarine"
+                           ,"MediumBlue"
+                           ,"MediumOrchid"
+                           ,"MediumPurple"
+                           ,"MediumSeaGreen"
+                           ,"MediumSlateBlue"
+                           ,"MediumSpringGreen"
+                           ,"MediumTurquoise"
+                           ,"MediumVioletRed"
+                           ,"MidnightBlue"
+                           ,"MintCream"
+                           ,"MistyRose"
+                           ,"Moccasin"
+                           ,"NavajoWhite"
+                           ,"Navy"
+                           ,"OldLace"
+                           ,"Olive"
+                           ,"OliveDrab"
+                           ,"Orange"
+                           ,"OrangeRed"
+                           ,"Orchid"
+                           ,"PaleGoldenRod"
+                           ,"PaleGreen"
+                           ,"PaleTurquoise"
+                           ,"PaleVioletRed"
+                           ,"PapayaWhip"
+                           ,"PeachPuff"
+                           ,"Peru"
+                           ,"Pink"
+                           ,"Plum"
+                           ,"PowderBlue"
+                           ,"Purple"
+                           ,"RebeccaPurple"
+                           ,"Red"
+                           ,"RosyBrown"
+                           ,"RoyalBlue"
+                           ,"SaddleBrown"
+                           ,"Salmon"
+                           ,"SandyBrown"
+                           ,"SeaGreen"
+                           ,"SeaShell"
+                           ,"Sienna"
+                           ,"Silver"
+                           ,"SkyBlue"
+                           ,"SlateBlue"
+                           ,"SlateGray"
+                           ,"Snow"
+                           ,"SpringGreen"
+                           ,"SteelBlue"
+                           ,"Tan"
+                           ,"Teal"
+                           ,"Thistle"
+                           ,"Tomato"
+                           ,"Turquoise"
+                           ,"Violet"
+                           ,"Wheat"
+                           ,"White"
+                           ,"WhiteSmoke"
+                           ,"Yellow"
+                           ,"YellowGreen"]);
+   var colorStyle = function (color) {    return {ctor: "_Tuple2",_0: "background-color",_1: color};};
    var nextRandom = F2(function (colors,seed) {
       var array = $Array.fromList(colors);
       var r = A2($Random.generate,A2($Random.$int,0,$List.length(colors) - 1),seed);
       var result = A2($Maybe.withDefault,"",A2($Array.get,$Basics.fst(r),array));
       return {ctor: "_Tuple2",_0: $Basics.snd(r),_1: result};
    });
-   var nextRandomColor = nextRandom(colors);
-   var update = F2(function (action,model) {
-      var _p0 = action;
-      switch (_p0.ctor)
-      {case "NoOp": return model;
-         case "NewGame": return _U.update(model,
-           {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: 0,wrongGuesses: 0,wrongColor: ""});
-         default: var _p1 = _p0._0;
-           return _U.eq(_p1,$Basics.snd(model.randomColor)) ? _U.update(model,
-           {randomColor: nextRandomColor($Basics.fst(model.randomColor)),correctGuesses: model.correctGuesses + 1,wrongColor: ""}) : _U.update(model,
-           {wrongGuesses: model.wrongGuesses + 1,wrongColor: _p1});}
-   });
-   var NewGame = {ctor: "NewGame"};
-   var Guess = function (a) {    return {ctor: "Guess",_0: a};};
-   var guessInbox = $Signal.mailbox(Guess(""));
+   var nextRandomColor = function (colors) {    return nextRandom(colors);};
+   var Model = F5(function (a,b,c,d,e) {    return {colors: a,randomColor: b,correctGuesses: c,wrongGuesses: d,wrongColor: e};});
+   var gameSize = 80;
+   var DefaultNewGame = {ctor: "DefaultNewGame"};
+   var NewGame = function (a) {    return {ctor: "NewGame",_0: a};};
+   var GuessColor = function (a) {    return {ctor: "GuessColor",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var guessInbox = $Signal.mailbox(NoOp);
    var actions = guessInbox.signal;
+   var newGameSection = A2($Html.span,
+   _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "right"}]))]),
+   _U.list([$Html.text("Colors: ")
+           ,A2($Html.span,
+           _U.list([$Html$Attributes.$class("gameSize")]),
+           _U.list([A2($Html.a,_U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame(40))]),_U.list([$Html.text(" 40 ")]))
+                   ,A2($Html.a,_U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame(80))]),_U.list([$Html.text(" 80 ")]))
+                   ,A2($Html.a,_U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame(120))]),_U.list([$Html.text(" 120 ")]))
+                   ,A2($Html.a,
+                   _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame($List.length(allColors)))]),
+                   _U.list([$Html.text(" All ")]))]))]));
    var upperView = function (model) {
-      return A2($Html.p,
+      return A2($Html.div,
       _U.list([$Html$Attributes.$class("upperView")]),
-      _U.list([$Html.text("Click the color ")
+      _U.list([A2($Html.p,
+      _U.list([]),
+      _U.list([$Html.text("Click color ")
               ,A2($Html.span,_U.list([$Html$Attributes.$class("randomColorStyle")]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
               ,$Html.text("  ")
               ,A2($Html.span,
@@ -11832,54 +11837,90 @@ Elm.Main.make = function (_elm) {
               _U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))
                       ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))]))
               ,A2($Html.a,
-              _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,NewGame),$Html$Attributes.$class("newGame")]),
+              _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,DefaultNewGame),$Html$Attributes.$class("newGame")]),
               _U.list([$Html.text("New Game")]))
               ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
               _U.list([]),
-              _U.list([$Html.text("Wrong, color was ")
+              _U.list([$Html.text("No, was ")
                       ,A2($Html.span,
-                      _U.list([$Html$Attributes.style(_U.list([A2(_op["=>"],"font-style","italic")]))]),
-                      _U.list([$Html.text(model.wrongColor)]))])) : A2($Html.div,_U.list([]),_U.list([]))]));
+                      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "font-style",_1: "italic"}]))]),
+                      _U.list([$Html.text(model.wrongColor)]))
+                      ,newGameSection])) : A2($Html.p,_U.list([]),_U.list([newGameSection]))]))]));
    };
    var singleColorView = function (color) {
       return A2($Html.li,
       _U.list([]),
       _U.list([A2($Html.a,
       _U.list([$Html$Attributes.href("#")
-              ,A2($Html$Events.onClick,guessInbox.address,Guess(color))
-              ,$Html$Attributes.style(colorStyle(color))
+              ,A2($Html$Events.onClick,guessInbox.address,GuessColor(color))
+              ,$Html$Attributes.style(_U.list([colorStyle(color)]))
               ,$Html$Attributes.$class("colorStyle")]),
       _U.list([$Html.text(" ")]))]));
    };
    var view = F2(function (act,model) {
-      return A2($Html.div,_U.list([$Html$Attributes.id("mainDiv")]),_U.list([upperView(model),A2($Html.ul,_U.list([]),A2($List.map,singleColorView,colors))]));
+      return A2($Html.div,
+      _U.list([$Html$Attributes.id("mainDiv")]),
+      _U.list([upperView(model),A2($Html.ul,_U.list([]),A2($List.map,singleColorView,model.colors))]));
    });
-   var NoOp = {ctor: "NoOp"};
-   var Model = F4(function (a,b,c,d) {    return {randomColor: a,correctGuesses: b,wrongGuesses: c,wrongColor: d};});
    var random = Elm.Native.Port.make(_elm).inbound("random",
    "Int",
    function (v) {
       return typeof v === "number" && isFinite(v) && Math.floor(v) === v ? v : _U.badPort("an integer",v);
    });
-   var initialModel = {randomColor: nextRandomColor($Random.initialSeed(random)),correctGuesses: 0,wrongGuesses: 0,wrongColor: ""};
+   var filterColors = F3(function (colors,gameSize,randomInt) {
+      var generator = A2($Random.list,gameSize,A2($Random.$int,0,$List.length(colors)));
+      var randomValues = $Basics.fst(A2($Random.generate,generator,$Random.initialSeed(random)));
+      var listValues = $Array.toList(A2($Array.map,function (n) {    return A2($Array.get,n,$Array.fromList(colors));},$Array.fromList(randomValues)));
+      return A2($List.filterMap,$Basics.identity,listValues);
+   });
+   var initialModel = function () {
+      var colors = A3(filterColors,allColors,40,random);
+      return {colors: colors,randomColor: A2(nextRandomColor,colors,$Random.initialSeed(random)),correctGuesses: 0,wrongGuesses: 0,wrongColor: ""};
+   }();
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "DefaultNewGame": return _U.update(model,
+           {colors: A3(filterColors,allColors,$List.length(model.colors),random)
+           ,randomColor: A2(nextRandomColor,model.colors,$Basics.fst(model.randomColor))
+           ,correctGuesses: 0
+           ,wrongGuesses: 0
+           ,wrongColor: ""});
+         case "NewGame": return _U.update(model,
+           {colors: A3(filterColors,allColors,_p0._0,random)
+           ,randomColor: A2(nextRandomColor,model.colors,$Basics.fst(model.randomColor))
+           ,correctGuesses: 0
+           ,wrongGuesses: 0
+           ,wrongColor: ""});
+         default: var _p1 = _p0._0;
+           return _U.eq(_p1,$Basics.snd(model.randomColor)) ? _U.update(model,
+           {randomColor: A2(nextRandomColor,model.colors,$Basics.fst(model.randomColor))
+           ,correctGuesses: model.correctGuesses + 1
+           ,wrongColor: ""}) : _U.update(model,{wrongGuesses: model.wrongGuesses + 1,wrongColor: _p1});}
+   });
    var model = A3($Signal.foldp,update,initialModel,actions);
    var main = A2($Signal.map,view(guessInbox.address),model);
    return _elm.Main.values = {_op: _op
+                             ,NoOp: NoOp
+                             ,GuessColor: GuessColor
+                             ,NewGame: NewGame
+                             ,DefaultNewGame: DefaultNewGame
+                             ,gameSize: gameSize
                              ,Model: Model
                              ,initialModel: initialModel
-                             ,NoOp: NoOp
-                             ,Guess: Guess
-                             ,NewGame: NewGame
+                             ,filterColors: filterColors
                              ,update: update
                              ,guessInbox: guessInbox
                              ,actions: actions
                              ,nextRandomColor: nextRandomColor
                              ,nextRandom: nextRandom
                              ,upperView: upperView
+                             ,newGameSection: newGameSection
                              ,singleColorView: singleColorView
                              ,view: view
                              ,colorStyle: colorStyle
                              ,model: model
                              ,main: main
-                             ,colors: colors};
+                             ,allColors: allColors};
 };
