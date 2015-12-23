@@ -170,6 +170,12 @@ view act model =
     [ upperView model
     , ul [ ]
         (List.map singleColorView model.colors)
+    , div [ ] [ text "Build by "
+              , a [ href "https://twitter.com/irrwitz"
+                  , target "_blank"
+                  ]
+                  [ text "@irrwitz" ]
+              ]
     ]
 
 

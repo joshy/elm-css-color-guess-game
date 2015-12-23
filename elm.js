@@ -11860,7 +11860,14 @@ Elm.Main.make = function (_elm) {
    var view = F2(function (act,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.id("mainDiv")]),
-      _U.list([upperView(model),A2($Html.ul,_U.list([]),A2($List.map,singleColorView,model.colors))]));
+      _U.list([upperView(model)
+              ,A2($Html.ul,_U.list([]),A2($List.map,singleColorView,model.colors))
+              ,A2($Html.div,
+              _U.list([]),
+              _U.list([$Html.text("Build by ")
+                      ,A2($Html.a,
+                      _U.list([$Html$Attributes.href("https://twitter.com/irrwitz"),$Html$Attributes.target("_blank")]),
+                      _U.list([$Html.text("@irrwitz")]))]))]));
    });
    var random = Elm.Native.Port.make(_elm).inbound("random",
    "Int",
