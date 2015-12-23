@@ -172,9 +172,16 @@ view act model =
         (List.map singleColorView model.colors)
     , div [ ] [ text "Build by "
               , a [ href "https://twitter.com/irrwitz"
+                  , class "button"
                   , target "_blank"
                   ]
-                  [ text "@irrwitz" ]
+                  [ text "@irrwitz." ]
+              , text " Source on "
+              , a [ href "https://github.com/irrwitz/elm-css-color-guess-game"
+                  , class "button"
+                  , target "_blank"
+                  ]
+                  [ text "Github"]
               ]
     ]
 

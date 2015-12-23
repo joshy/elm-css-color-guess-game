@@ -6,6 +6,11 @@ body {
 a {
   text-decoration: none;
 }
+a.button {
+  color: white;
+  background: rgb(38,38,38);
+  padding: 7px;
+}
 #mainDiv {
   max-width: 510px;
   padding: 2em;
