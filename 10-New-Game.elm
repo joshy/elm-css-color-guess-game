@@ -4,7 +4,7 @@ import Html.Events exposing (..)
 import Random
 import Array
 import String
-
+import Random.Array exposing (shuffle)
 
 port random : Int
 
@@ -39,12 +39,13 @@ initialModel =
 filterColors : List String -> Int -> Int -> List String
 filterColors colors gameSize randomInt =
   let
-    generator = Random.list gameSize (Random.int 0 (List.length colors))
-    randomValues = fst <| Random.generate generator <| Random.initialSeed random
-    listValues =  Array.toList
-      <| Array.map (\n -> Array.get n (Array.fromList colors)) (Array.fromList randomValues)
+    colorArray = Array.fromList allColors
+    shuffled = shuffle colorArray
+    seed = Random.initialSeed randomInt
+    listShuffled = Array.toList (fst <| Random.generate shuffled seed)
+    listValues = List.take gameSize listShuffled
   in
-    List.filterMap identity listValues
+    listValues
 
 
 update : Action -> Model -> Model
@@ -85,7 +86,7 @@ actions =
   guessInbox.signal
 
 
-nextRandomColor : List String -> Random.Seed ->  ( Random.Seed, String )
+nextRandomColor : List String -> Random.Seed -> (Random.Seed, String)
 nextRandomColor colors = nextRandom colors
 
 
@@ -175,7 +176,7 @@ view act model =
                   , class "button"
                   , target "_blank"
                   ]
-                  [ text "@irrwitz." ]
+                  [ text "@irrwitz" ]
               , text " Source on "
               , a [ href "https://github.com/irrwitz/elm-css-color-guess-game"
                   , class "button"
