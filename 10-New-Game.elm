@@ -172,7 +172,7 @@ view act model =
     [ upperView model
     , ul [ ]
         (List.map singleColorView model.colors)
-    , div [ style [("padding-top", "30px")] ] [
+    , div [ style [("padding-top", "15px")] ] [
         div [ style [("float", "left")] ] [ text "Build by "
               , a [ href "https://twitter.com/irrwitz"
                   , class "button"

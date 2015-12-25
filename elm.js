@@ -11049,7 +11049,7 @@ Elm.Main.make = function (_elm) {
       _U.list([upperView(model)
               ,A2($Html.ul,_U.list([]),A2($List.map,singleColorView,model.colors))
               ,A2($Html.div,
-              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "padding-top",_1: "30px"}]))]),
+              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "padding-top",_1: "15px"}]))]),
               _U.list([A2($Html.div,
                       _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "left"}]))]),
                       _U.list([$Html.text("Build by ")
