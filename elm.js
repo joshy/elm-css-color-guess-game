@@ -10998,7 +10998,7 @@ Elm.Main.make = function (_elm) {
    var guessInbox = $Signal.mailbox(NoOp);
    var actions = guessInbox.signal;
    var newGameSection = A2($Html.span,
-   _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "right"}]))]),
+   _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "left"}]))]),
    _U.list([$Html.text("Colors: ")
            ,A2($Html.span,
            _U.list([$Html$Attributes.$class("gameSize")]),
@@ -11012,24 +11012,26 @@ Elm.Main.make = function (_elm) {
       return A2($Html.div,
       _U.list([$Html$Attributes.$class("upperView")]),
       _U.list([A2($Html.p,
-      _U.list([]),
-      _U.list([$Html.text("Click color ")
-              ,A2($Html.span,_U.list([$Html$Attributes.$class("randomColorStyle")]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
-              ,$Html.text("  ")
-              ,A2($Html.span,
+              _U.list([$Html$Attributes.$class("firstRow")]),
+              _U.list([A2($Html.a,
+                      _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,DefaultNewGame),$Html$Attributes.$class("newGame")]),
+                      _U.list([$Html.text("New Game")]))
+                      ,newGameSection]))
+              ,A2($Html.p,
               _U.list([]),
-              _U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))
-                      ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))]))
-              ,A2($Html.a,
-              _U.list([$Html$Attributes.href("#"),A2($Html$Events.onClick,guessInbox.address,DefaultNewGame),$Html$Attributes.$class("newGame")]),
-              _U.list([$Html.text("New Game")]))
-              ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
-              _U.list([]),
-              _U.list([$Html.text("No, was ")
+              _U.list([$Html.text("Click color ")
+                      ,A2($Html.span,_U.list([$Html$Attributes.$class("randomColorStyle")]),_U.list([$Html.text($Basics.snd(model.randomColor))]))
+                      ,$Html.text("  ")
                       ,A2($Html.span,
-                      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "font-style",_1: "italic"}]))]),
-                      _U.list([$Html.text(model.wrongColor)]))
-                      ,newGameSection])) : A2($Html.p,_U.list([]),_U.list([newGameSection]))]))]));
+                      _U.list([]),
+                      _U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.correctGuesses)),$Html.text(" / ")]))
+                              ,A2($Html.span,_U.list([]),_U.list([A2($Html.span,_U.list([]),_U.list([$Html.text($Basics.toString(model.wrongGuesses))]))]))]))
+                      ,_U.cmp($String.length(model.wrongColor),0) > 0 ? A2($Html.p,
+                      _U.list([]),
+                      _U.list([$Html.text("No, was ")
+                              ,A2($Html.span,
+                              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "font-style",_1: "italic"}]))]),
+                              _U.list([$Html.text(model.wrongColor)]))])) : A2($Html.p,_U.list([]),_U.list([]))]))]));
    };
    var singleColorView = function (color) {
       return A2($Html.li,
@@ -11047,17 +11049,23 @@ Elm.Main.make = function (_elm) {
       _U.list([upperView(model)
               ,A2($Html.ul,_U.list([]),A2($List.map,singleColorView,model.colors))
               ,A2($Html.div,
-              _U.list([]),
-              _U.list([$Html.text("Build by ")
-                      ,A2($Html.a,
-                      _U.list([$Html$Attributes.href("https://twitter.com/irrwitz"),$Html$Attributes.$class("button"),$Html$Attributes.target("_blank")]),
-                      _U.list([$Html.text("@irrwitz")]))
-                      ,$Html.text(" Source on ")
-                      ,A2($Html.a,
-                      _U.list([$Html$Attributes.href("https://github.com/irrwitz/elm-css-color-guess-game")
-                              ,$Html$Attributes.$class("button")
-                              ,$Html$Attributes.target("_blank")]),
-                      _U.list([$Html.text("Github")]))]))]));
+              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "padding-top",_1: "30px"}]))]),
+              _U.list([A2($Html.div,
+                      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "left"}]))]),
+                      _U.list([$Html.text("Build by ")
+                              ,A2($Html.a,
+                              _U.list([$Html$Attributes.href("https://twitter.com/irrwitz")
+                                      ,$Html$Attributes.$class("button")
+                                      ,$Html$Attributes.target("_blank")]),
+                              _U.list([$Html.text("@irrwitz")]))]))
+                      ,A2($Html.div,
+                      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "float",_1: "right"}]))]),
+                      _U.list([$Html.text(" Source on ")
+                              ,A2($Html.a,
+                              _U.list([$Html$Attributes.href("https://github.com/irrwitz/elm-css-color-guess-game")
+                                      ,$Html$Attributes.$class("button")
+                                      ,$Html$Attributes.target("_blank")]),
+                              _U.list([$Html.text("Github")]))]))]))]));
    });
    var random = Elm.Native.Port.make(_elm).inbound("random",
    "Int",

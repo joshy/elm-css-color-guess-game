@@ -103,7 +103,14 @@ nextRandom colors seed =
 upperView : Model -> Html
 upperView model =
     div [ class "upperView" ]
-        [ p [ ] [ text "Click color "
+        [ p [ class "firstRow" ] [ a [ href "#"
+                    , onClick guessInbox.address DefaultNewGame
+                    , class "newGame"
+                    ]
+                    [ text "New Game" ]
+                , newGameSection
+                ]
+        , p [ ] [ text "Click color "
                 , span [ class "randomColorStyle" ] [ text (snd model.randomColor) ]
                 , text "  "
                 , span [ ] [ span [ ] [ text (toString model.correctGuesses)
@@ -111,26 +118,20 @@ upperView model =
                                       ]
                           , span [ ] [ span [ ] [ text (toString model.wrongGuesses) ] ]
                           ]
-                , a [ href "#"
-                    , onClick guessInbox.address DefaultNewGame
-                    , class "newGame"
-                    ]
-                    [ text "New Game" ]
                 , if (String.length model.wrongColor > 0) then
                     p [ ] [ text "No, was "
                           , span [ style [ ("font-style", "italic") ] ]
                                  [ text model.wrongColor ]
-                          , newGameSection
                           ]
                   else
-                    p [ ] [ newGameSection]
+                    p [ ] [ ]
                 ]
         ]
 
 
 newGameSection : Html
 newGameSection =
-    span [ style [("float", "right")] ]
+    span [ style [("float", "left")] ]
          [ text "Colors: "
          , span [ class "gameSize" ]
                 [ a [ href "#"
@@ -171,19 +172,23 @@ view act model =
     [ upperView model
     , ul [ ]
         (List.map singleColorView model.colors)
-    , div [ ] [ text "Build by "
+    , div [ style [("padding-top", "30px")] ] [
+        div [ style [("float", "left")] ] [ text "Build by "
               , a [ href "https://twitter.com/irrwitz"
                   , class "button"
                   , target "_blank"
                   ]
                   [ text "@irrwitz" ]
-              , text " Source on "
+              ]
+        , div [ style [("float", "right")] ]
+              [ text " Source on "
               , a [ href "https://github.com/irrwitz/elm-css-color-guess-game"
                   , class "button"
                   , target "_blank"
                   ]
                   [ text "Github"]
               ]
+        ]
     ]
 
 

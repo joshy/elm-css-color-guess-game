@@ -3,6 +3,7 @@ body {
   font-family: calibri, helvetica, arial, sans-serif;
   background: rgb(38,38,38);
 }
+
 a {
   text-decoration: none;
 }
@@ -29,8 +30,11 @@ a.button {
 
 .upperView {
   max-width : 580px;
-  min-height: 70px;
+  min-height: 100px;
   margin: 0;
+}
+.firstRow {
+  padding-bottom: 30px;
 }
 
 span.gameSize a{
@@ -44,6 +48,16 @@ ul {
   overflow: auto;
   background: #262626;
   max-width: 502px;
+}
+
+@media (max-width:375px) {
+ul {
+  padding: 2px;
+  overflow: auto;
+  background: #262626;
+  max-width: 250px;
+  margin: 0 auto;
+  }
 }
 
 li {
@@ -67,6 +81,5 @@ li {
   color: #000;
   height: 50px;
   display: block;
-  transform: scale(0.85);
-  transition: 0.4s;
+  transform: scale(0.95);
 }
